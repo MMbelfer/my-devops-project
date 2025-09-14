@@ -15,4 +15,4 @@ services:
     build: .
     command: npm test
     depends_on:
-      - db
+      - web
