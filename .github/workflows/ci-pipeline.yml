@@ -1,0 +1,32 @@
+# A simple name for our workflow
+name: CI Pipeline
+
+# The events that will trigger this workflow.
+on:
+  push:
+    branches:
+      - main
+
+# The jobs to run as part of the workflow.
+jobs:
+  build_and_test:
+    # A name for the job
+    name: Build and Test
+    # The runner environment to use (e.g., a virtual machine)
+    runs-on: ubuntu-latest
+    
+    # The steps to run in the job.
+    steps:
+      # Step 1: Check out the code from the repository.
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      # Step 2: Build the project using Docker Compose.
+      # The `--no-TTY` flag is for compatibility with the GitHub Actions environment.
+      - name: Build project
+        run: docker-compose up --build --no-TTY
+      
+      # Step 3: Run the tests container.
+      # The tests container will exit with a code of 0 on success, and 1 on failure.
+      - name: Run tests
+        run: docker-compose run tests
